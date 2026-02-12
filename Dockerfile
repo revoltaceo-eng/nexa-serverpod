@@ -1,20 +1,17 @@
-# ---------- Stage 1: Build ----------
-FROM ghcr.io/cirruslabs/flutter:stable AS build
-
-WORKDIR /app
-COPY . .
-
-WORKDIR /app/nexa_serverpod_server
-RUN flutter pub get
-RUN dart compile exe bin/main.dart -o server
-
-# ---------- Stage 2: Runtime ----------
 FROM dart:stable
 
+# مجلد العمل الأساسي
 WORKDIR /app
-COPY --from=build /app/nexa_serverpod_server/server .
 
-EXPOSE 8080
+# نسخ كل المشروع
+COPY . .
 
+# الدخول إلى مجلد السيرفر
+WORKDIR /app/nexa_serverpod_server
+
+# تثبيت الحزم
+RUN dart pub get
+
+# تشغيل السيرفر في وضع production
 CMD ["dart", "bin/main.dart", "--mode", "production"]
 
