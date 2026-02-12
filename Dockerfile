@@ -16,5 +16,5 @@ COPY --from=build /app/nexa_serverpod_server/server .
 
 EXPOSE 8080
 
-CMD ["./server"]
+CMD ["dart", "bin/main.dart", "--mode", "production"]
 
