@@ -1,0 +1,13 @@
+name: _
+publish_to: none
+
+environment:
+  sdk: '^3.8.0'
+
+workspace:
+  - nexa_serverpod_client
+  - nexa_serverpod_server
+  - nexa_serverpod_flutter
+dependency_overrides:
+  flutter_secure_storage: ^10.0.0
+
