@@ -1,7 +1,6 @@
-FROM cirrusci/flutter:stable
+FROM ghcr.io/cirruslabs/flutter:stable
 
 WORKDIR /app
-
 COPY . .
 
 WORKDIR /app/nexa_serverpod_server
