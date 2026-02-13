@@ -1,3 +1,6 @@
+serverId: default
+role: monolith
+
 apiServer:
   port: 8080
   publicHost: 0.0.0.0
@@ -11,12 +14,18 @@ insightsServer:
   publicScheme: http
 
 webServer:
-  port: 8082
+  port: 8080
   publicHost: 0.0.0.0
-  publicPort: 8082
+  publicPort: 8080
   publicScheme: http
 
-webServer:
-  port: 8080
-  host: 0.0.0.0
-    publicScheme: http
+logging:
+  mode: normal
+
+database:
+  host: ${DATABASE_HOST}
+  port: ${DATABASE_PORT}
+  name: ${DATABASE_NAME}
+  user: ${DATABASE_USER}
+  password: ${DATABASE_PASSWORD}
+  requireSsl: true
