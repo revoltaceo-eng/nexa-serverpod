@@ -10,8 +10,8 @@ COPY nexa_serverpod_server ./nexa_serverpod_server
 
 WORKDIR /app/nexa_serverpod_server
 
-# تعطيل workspace
-RUN dart pub get --no-workspace
+# تحميل dependencies
+RUN dart pub get
 
 # بناء executable
 RUN dart compile exe bin/main.dart -o server
@@ -23,6 +23,8 @@ RUN dart compile exe bin/main.dart -o server
 FROM debian:stable-slim
 
 WORKDIR /app
+
+ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && \
     apt-get install -y ca-certificates && \
