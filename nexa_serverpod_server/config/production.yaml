@@ -16,3 +16,7 @@ webServer:
   publicPort: 8082
   publicScheme: http
 
+webServer:
+  port: 8080
+  host: 0.0.0.0
+    publicScheme: http
