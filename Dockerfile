@@ -5,16 +5,15 @@ FROM dart:stable AS build
 
 WORKDIR /app
 
-# نسخ المشروع كامل (workspace root)
-COPY . .
+# نسخ مجلد السيرفر فقط (مهم جداً)
+COPY nexa_serverpod_server ./nexa_serverpod_server
 
-# الدخول إلى مجلد السيرفر فقط
 WORKDIR /app/nexa_serverpod_server
 
 # تحميل dependencies الخاصة بالسيرفر فقط
 RUN dart pub get
 
-# بناء executable للسيرفر
+# بناء executable
 RUN dart compile exe bin/main.dart -o server
 
 
@@ -25,16 +24,12 @@ FROM debian:stable-slim
 
 WORKDIR /app
 
-# تثبيت شهادات SSL فقط (خفيف جداً)
 RUN apt-get update && \
     apt-get install -y ca-certificates && \
     rm -rf /var/lib/apt/lists/*
 
-# نسخ الملف التنفيذي فقط من مرحلة البناء
 COPY --from=build /app/nexa_serverpod_server/server ./server
 
-# فتح البورت
 EXPOSE 8080
 
-# تشغيل السيرفر
 CMD ["./server", "--mode", "production"]
