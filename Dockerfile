@@ -5,13 +5,13 @@ FROM dart:stable AS build
 
 WORKDIR /app
 
-# نسخ مجلد السيرفر فقط (مهم جداً)
+# نسخ السيرفر فقط
 COPY nexa_serverpod_server ./nexa_serverpod_server
 
 WORKDIR /app/nexa_serverpod_server
 
-# تحميل dependencies الخاصة بالسيرفر فقط
-RUN dart pub get
+# تعطيل workspace
+RUN dart pub get --no-workspace
 
 # بناء executable
 RUN dart compile exe bin/main.dart -o server
