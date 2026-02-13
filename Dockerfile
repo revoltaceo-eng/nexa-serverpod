@@ -1,15 +1,28 @@
-FROM dart:stable
+# ---------- Stage 1: Build ----------
+FROM dart:stable AS build
 
 WORKDIR /app
 
-# نسخ المشروع بالكامل
+# نسخ المشروع بالكامل (workspace root)
 COPY . .
 
-# تثبيت الحزم من الجذر (workspace)
-RUN dart pub get
-
-# الدخول إلى السيرفر
+# حل المشكلة: تثبيت حزم السيرفر فقط بدون flutter
 WORKDIR /app/nexa_serverpod_server
 
-# تشغيل السيرفر
-CMD ["dart", "bin/main.dart", "--mode", "production"]
+RUN dart pub get
+RUN dart compile exe bin/main.dart -o server
+
+# ---------- Stage 2: Runtime ----------
+FROM debian:stable-slim
+
+WORKDIR /app
+
+# تثبيت certificates
+RUN apt-get update && apt-get install -y ca-certificates && rm -rf /var/lib/apt/lists/*
+
+# نسخ الملف التنفيذي فقط
+COPY --from=build /app/nexa_serverpod_server/server ./server
+
+EXPOSE 8080
+
+CMD ["./server", "--mode", "production"]
