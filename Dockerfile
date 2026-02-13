@@ -2,14 +2,14 @@ FROM dart:stable
 
 WORKDIR /app
 
-# نسخ المشروع بالكامل (workspace root)
+# نسخ المشروع بالكامل
 COPY . .
 
-# الدخول لمجلد السيرفر
-WORKDIR /app/nexa_serverpod_server
-
-# تثبيت الحزم
+# تثبيت الحزم من الجذر (workspace)
 RUN dart pub get
+
+# الدخول إلى السيرفر
+WORKDIR /app/nexa_serverpod_server
 
 # تشغيل السيرفر
 CMD ["dart", "bin/main.dart", "--mode", "production"]
